@@ -1,3 +1,9 @@
+# Config file
+scrapy_real_estate.cfg
+
+# Data dir
+offers_data
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
