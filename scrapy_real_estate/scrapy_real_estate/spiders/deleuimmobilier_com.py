@@ -46,14 +46,20 @@ class DeleuimmobilierComSpider(scrapy.Spider):
                 continue
 
             url = response.urljoin(a_tag.attrib['href'])
-            description = [
-                offer.css('div.bloc_acc_nouv_title::text').get(),
-                offer.css('div.bloc_acc_nouv_prix::text').get(),
-            ]
+            price_str = offer.css('div.bloc_acc_nouv_prix::text').get()
+            city = offer.css('div.bloc_acc_nouv_title::text').get()
+
+            try:
+                price = int(re.sub(r'[^0-9]', '', price_str))
+                if price > int(self.config['offers']['max_price']):
+                    # Too expensive
+                    continue
+            except ValueError:
+                pass
 
             yield {
                 'url': url,
-                'description': ' - '.join(description),
+                'description': f'{city} - {price_str}',
             }
 
         next_page = None

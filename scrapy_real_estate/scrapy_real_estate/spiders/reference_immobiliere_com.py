@@ -44,7 +44,6 @@ class CityImmoFrSpider(scrapy.Spider):
                 continue
 
         if next_page:
-            logging.critical(next_page)
             yield response.follow(next_page, callback=self.parse, errback=self.errback)
 
     def errback(self, failure):
